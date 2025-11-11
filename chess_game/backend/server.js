@@ -397,7 +397,7 @@ app.get('/health', (req, res) => {
 // ===================================
 const PORT = process.env.PORT || 3001;
 
-httpServer.listen(PORT, () => {
+httpServer.listen(PORT, '0.0.0.0', () => {
   console.log(`✅ Chess WebSocket server running on port ${PORT}`);
   console.log(`🌐 Angular client should connect to: http://localhost:${PORT}`);
   console.log(`📊 API available at: http://localhost:${PORT}/api/games`);
