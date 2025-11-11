@@ -1,3 +1,8 @@
+/* ===================================
+   FILE: chess-board.component.css (RESPONSIVE VERSION)
+   =================================== */
+
+/* Base styles remain the same */
 .chess-board {
     display: flex;
     justify-content: center;
@@ -26,33 +31,44 @@
     background-color: white;
 }
 
-
 .game-over-message {
     color: white;
     margin: 10px;
+    text-align: center;
+    font-size: 1.5rem;
 }
 
 .promotion-dialog {
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 300px;
+    width: 350px;
     height: 100px;
+    background-color: rgba(0, 0, 0, 0.9);
+    border-radius: 8px;
+    padding: 10px;
+    gap: 10px;
 }
 
 .promotion-dialog img {
     height: 70px;
     cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.promotion-dialog img:hover {
+    transform: scale(1.1);
 }
 
 .close-promotion-dialog {
     font-size: 45px;
     cursor: pointer;
     color: white;
+    padding: 0 10px;
 }
 
 .dark {
-    background-color: #779AAF
+    background-color: #779AAF;
 }
 
 .light {
@@ -61,10 +77,13 @@
 
 .piece {
     width: 50px;
+    pointer-events: none; /* Prevent drag issues on mobile */
 }
 
 .selected-square {
-    box-shadow: inset rgba(60, 70, 85, 0.5) 0px 0px 40px 0px, inset rgba(60, 70, 85, 0.5) 0px 0px 40px 0px, inset rgba(0, 0, 0, 1) 0px 0px 36px -24px;
+    box-shadow: inset rgba(60, 70, 85, 0.5) 0px 0px 40px 0px, 
+                inset rgba(60, 70, 85, 0.5) 0px 0px 40px 0px, 
+                inset rgba(0, 0, 0, 1) 0px 0px 36px -24px;
 }
 
 .safe-square {
@@ -74,31 +93,40 @@
     background-color: #bbb;
     border-radius: 50%;
     z-index: 100;
+    pointer-events: none;
 }
 
 .king-in-check {
-    box-shadow: inset rgb(179, 21, 0) 0px 0px 40px 0px, inset rgb(163, 11, 0) 0px 0px 40px 0px, inset rgba(0, 0, 0, 1) 0px 0px 36px -24px;
+    box-shadow: inset rgb(179, 21, 0) 0px 0px 40px 0px, 
+                inset rgb(163, 11, 0) 0px 0px 40px 0px, 
+                inset rgba(0, 0, 0, 1) 0px 0px 36px -24px;
 }
 
 .last-move {
-    box-shadow: inset rgb(6, 179, 0) 0px 0px 40px 0px, inset rgb(6, 179, 0)0px 0px 40px 0px, inset rgba(0, 0, 0, 1) 0px 0px 36px -24px;
+    box-shadow: inset rgb(6, 179, 0) 0px 0px 40px 0px, 
+                inset rgb(6, 179, 0) 0px 0px 40px 0px, 
+                inset rgba(0, 0, 0, 1) 0px 0px 36px -24px;
 }
 
 .promotion-square {
-    box-shadow: inset rgb(0, 98, 150) 0px 0px 40px 0px, inset rgb(0, 98, 150) 0px 0px 40px 0px, inset rgba(0, 0, 0, 1) 0px 0px 36px -24px;
+    box-shadow: inset rgb(0, 98, 150) 0px 0px 40px 0px, 
+                inset rgb(0, 98, 150) 0px 0px 40px 0px, 
+                inset rgba(0, 0, 0, 1) 0px 0px 36px -24px;
 }
 
-
-/* my own css*/
-
+/* Container Layout */
 .container {
-  display: flex;
-  width: 100%;
+    display: flex;
+    width: 100%;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
 }
 
 .left-placeholder {
     padding: 50px;
     width: 20%;
+    display: flex;
+    align-items: center;
 }
 
 .center {
@@ -106,10 +134,322 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    margin: 20px;
+    margin: 10px;
     width: 60%;
 }
 
+.center button {
+    padding: 10px 30px;
+    font-size: 1rem;
+    font-weight: 600;
+    background-color: #3b82f6;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin: 10px;
+}
+
+.center button:hover {
+    background-color: #2563eb;
+    transform: translateY(-2px);
+}
+
 .right {
-  width: 20%;
+    width: 20%;
+    padding: 20px;
+}
+
+/* ===================================
+   RESPONSIVE BREAKPOINTS
+   =================================== */
+
+/* Tablets (Portrait) - 768px and below */
+@media screen and (max-width: 768px) {
+    .container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .left-placeholder {
+        width: 100%;
+        padding: 20px;
+        order: 1;
+    }
+
+    .center {
+        width: 100%;
+        margin: 10px;
+        order: 2;
+    }
+
+    .right {
+        width: 100%;
+        order: 3;
+        padding: 10px;
+    }
+
+    /* Slightly smaller board for tablets */
+    .chess-board {
+        width: 400px;
+        height: 400px;
+    }
+
+    .square {
+        height: 50px;
+        width: 50px;
+    }
+
+    .piece {
+        width: 42px;
+    }
+
+    .safe-square {
+        height: 16px;
+        width: 16px;
+    }
+
+    .game-over-message {
+        font-size: 1.3rem;
+    }
+}
+
+/* Mobile Landscape - 640px and below */
+@media screen and (max-width: 640px) {
+    .chess-board {
+        width: 320px;
+        height: 320px;
+    }
+
+    .square {
+        height: 40px;
+        width: 40px;
+        border: 0.5px solid white;
+    }
+
+    .piece {
+        width: 35px;
+    }
+
+    .safe-square {
+        height: 14px;
+        width: 14px;
+    }
+
+    .promotion-dialog {
+        width: 250px;
+        height: 80px;
+        gap: 5px;
+    }
+
+    .promotion-dialog img {
+        height: 55px;
+    }
+
+    .close-promotion-dialog {
+        font-size: 35px;
+    }
+
+    .center button {
+        padding: 8px 20px;
+        font-size: 0.9rem;
+    }
+
+    .game-over-message {
+        font-size: 1.1rem;
+        margin: 5px;
+    }
+}
+
+/* Mobile Portrait - 480px and below */
+@media screen and (max-width: 480px) {
+    .container {
+        padding: 10px;
+    }
+
+    .left-placeholder {
+        padding: 10px;
+    }
+
+    .center {
+        margin: 5px;
+    }
+
+    /* Very compact board for small phones */
+    .chess-board {
+        width: 280px;
+        height: 280px;
+    }
+
+    .square {
+        height: 35px;
+        width: 35px;
+    }
+
+    .piece {
+        width: 30px;
+    }
+
+    .safe-square {
+        height: 12px;
+        width: 12px;
+    }
+
+    .promotion-dialog {
+        width: 220px;
+        height: 70px;
+        padding: 5px;
+    }
+
+    .promotion-dialog img {
+        height: 50px;
+    }
+
+    .close-promotion-dialog {
+        font-size: 30px;
+        padding: 0 5px;
+    }
+
+    .center button {
+        padding: 6px 16px;
+        font-size: 0.85rem;
+        margin: 5px;
+    }
+
+    .game-over-message {
+        font-size: 1rem;
+    }
+}
+
+/* Extra Small Phones - 360px and below */
+@media screen and (max-width: 360px) {
+    .chess-board {
+        width: 240px;
+        height: 240px;
+    }
+
+    .square {
+        height: 30px;
+        width: 30px;
+    }
+
+    .piece {
+        width: 26px;
+    }
+
+    .safe-square {
+        height: 10px;
+        width: 10px;
+    }
+
+    .promotion-dialog {
+        width: 200px;
+        height: 60px;
+    }
+
+    .promotion-dialog img {
+        height: 45px;
+    }
+
+    .close-promotion-dialog {
+        font-size: 25px;
+    }
+}
+
+/* ===================================
+   LANDSCAPE ORIENTATION FIX
+   =================================== */
+@media screen and (max-height: 600px) and (orientation: landscape) {
+    .container {
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        min-height: auto;
+    }
+
+    .left-placeholder {
+        width: 15%;
+        padding: 10px;
+    }
+
+    .center {
+        width: 70%;
+        margin: 10px;
+    }
+
+    .right {
+        width: 15%;
+        padding: 10px;
+    }
+
+    .chess-board {
+        width: 320px;
+        height: 320px;
+    }
+
+    .square {
+        height: 40px;
+        width: 40px;
+    }
+
+    .piece {
+        width: 35px;
+    }
+}
+
+/* ===================================
+   TOUCH IMPROVEMENTS FOR MOBILE
+   =================================== */
+@media (hover: none) and (pointer: coarse) {
+    /* Increase touch targets on mobile */
+    .square {
+        cursor: default;
+    }
+
+    /* Remove hover effects on touch devices */
+    .center button:hover {
+        transform: none;
+    }
+
+    .promotion-dialog img:hover {
+        transform: none;
+    }
+
+    /* Add active state for better feedback */
+    .square:active {
+        opacity: 0.8;
+    }
+
+    .center button:active {
+        transform: scale(0.95);
+    }
+
+    .promotion-dialog img:active {
+        transform: scale(0.95);
+    }
+}
+
+/* ===================================
+   PREVENT OVERSCROLL ON iOS
+   =================================== */
+body {
+    overscroll-behavior: none;
+    -webkit-overflow-scrolling: touch;
+}
+
+/* ===================================
+   FIX FOR SAFARI iOS
+   =================================== */
+.chess-board {
+    -webkit-user-select: none;
+    -webkit-touch-callout: none;
+}
+
+.piece {
+    -webkit-user-drag: none;
+    -khtml-user-drag: none;
+    -moz-user-drag: none;
+    -o-user-drag: none;
+    user-drag: none;
 }

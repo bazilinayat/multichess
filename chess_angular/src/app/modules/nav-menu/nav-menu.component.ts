@@ -4,6 +4,9 @@ import { MatButtonModule } from "@angular/material/button"
 import { RouterModule } from '@angular/router';
 import { Router } from '@angular/router';
 import { MatDialog, MatDialogModule } from "@angular/material/dialog";
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatIconModule } from '@angular/material/icon';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { PlayAgainstComputerDialogComponent } from '../play-against-computer-dialog/play-against-computer-dialog.component';
 
 @Component({
@@ -11,7 +14,7 @@ import { PlayAgainstComputerDialogComponent } from '../play-against-computer-dia
   templateUrl: './nav-menu.component.html',
   styleUrls: ['./nav-menu.component.css'],
   standalone: true,
-  imports: [MatToolbarModule, MatButtonModule, RouterModule, MatDialogModule]
+  imports: [MatToolbarModule, MatButtonModule, RouterModule, MatDialogModule, MatSidenavModule, MatIconModule, BrowserAnimationsModule]
 })
 export class NavMenuComponent {
 

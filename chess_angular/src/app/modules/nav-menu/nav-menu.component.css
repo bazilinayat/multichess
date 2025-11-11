@@ -1,0 +1,49 @@
+.sidenav-container {
+  height: 100%;
+}
+
+.sidenav {
+  display: flex;
+  flex-direction: column;
+  padding: 16px;
+  width: 220px;
+}
+
+.toolbar {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.toolbar-title {
+  flex-grow: 1;
+  text-align: center;
+  font-weight: 500;
+}
+
+/* Hide the menu button (hamburger) by default on desktop */
+.menu-button {
+  display: none;
+}
+
+/* Show the navigation buttons inline by default */
+.nav-buttons {
+  display: flex;
+  gap: 8px;
+}
+
+/* Responsive adjustments for mobile screens */
+@media (max-width: 768px) {
+  .menu-button {
+    display: inline-flex; /* show hamburger on mobile */
+  }
+
+  .nav-buttons {
+    display: none; /* hide full buttons on mobile */
+  }
+
+  .toolbar-title {
+    text-align: left;
+    margin-left: 12px;
+  }
+}

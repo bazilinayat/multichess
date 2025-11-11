@@ -1,16 +1,39 @@
-<mat-toolbar style="display: flex; justify-content: center; align-items: center;">
-    <button mat-button routerLink="/against-friend">
+<mat-sidenav-container class="sidenav-container">
+  <!-- Side drawer for mobile -->
+  <mat-sidenav #drawer class="sidenav" mode="over">
+    <button mat-button routerLink="/against-friend" (click)="drawer.close()">
+      Play against friend
+    </button>
+    <button mat-button (click)="playAgainstComputer(); drawer.close()">
+      Play against computer
+    </button>
+    <button mat-button (click)="playAgainstRandom(); drawer.close()">
+      Play against someone
+    </button>
+  </mat-sidenav>
+
+  <!-- Toolbar -->
+  <mat-toolbar color="secondary" class="toolbar">
+    <!-- Hamburger icon (only visible on mobile) -->
+    <button mat-icon-button (click)="drawer.toggle()" class="menu-button">
+      <mat-icon>menu</mat-icon>
+    </button>
+
+    <span class="toolbar-title">Chess Game</span>
+
+    <!-- Desktop buttons -->
+    <div class="nav-buttons">
+      <button mat-button routerLink="/against-friend">
         Play against friend
-    </button>
-
-    <button mat-button (click)="playAgainstComputer()">
+      </button>
+      <button mat-button (click)="playAgainstComputer()">
         Play against computer
-    </button>
-
-    <button mat-button (click)="playAgainstRandom()">
+      </button>
+      <button mat-button (click)="playAgainstRandom()">
         Play against someone
-    </button>
+      </button>
+    </div>
+  </mat-toolbar>
 
-</mat-toolbar>
-
-<router-outlet></router-outlet>
+  <router-outlet></router-outlet>
+</mat-sidenav-container>
