@@ -51,7 +51,8 @@ export class MultiplayerService {
       transports: ['websocket', 'polling'],
       reconnection: true,
       reconnectionAttempts: 5,
-      reconnectionDelay: 1000
+      reconnectionDelay: 1000,
+      secure: true
     });
 
     this.setupConnectionListeners();
