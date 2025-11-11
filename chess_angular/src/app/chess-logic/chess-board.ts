@@ -31,7 +31,7 @@ export class ChessBoard {
     private _moveList: MoveList = [];
     private _gameHistory: GameHistory;
 
-    constructor() {
+    constructor(playerColor: Color|undefined) {
         this.chessBoard = [
             [
                 new Rook(Color.White), new Knight(Color.White), new Bishop(Color.White), new Queen(Color.White),
@@ -56,10 +56,17 @@ export class ChessBoard {
         ];
         this._safeSquares = this.findSafeSqures();
         this._gameHistory = [{ board: this.chessBoardView, lastMove: this._lastMove, checkState: this._checkState }];
+
+        if (playerColor)
+            this._playerColor = playerColor;
     }
 
     public get playerColor(): Color {
         return this._playerColor;
+    }
+
+     public setPlayerColor(color: Color) {
+        this._playerColor = color;
     }
 
     public get chessBoardView(): (FENChar | null)[][] {

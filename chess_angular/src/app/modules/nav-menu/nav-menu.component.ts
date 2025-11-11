@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { MatToolbarModule } from "@angular/material/toolbar";
 import { MatButtonModule } from "@angular/material/button"
 import { RouterModule } from '@angular/router';
+import { Router } from '@angular/router';
 import { MatDialog, MatDialogModule } from "@angular/material/dialog";
 import { PlayAgainstComputerDialogComponent } from '../play-against-computer-dialog/play-against-computer-dialog.component';
 
@@ -14,9 +15,15 @@ import { PlayAgainstComputerDialogComponent } from '../play-against-computer-dia
 })
 export class NavMenuComponent {
 
-  constructor(private dialog: MatDialog) { }
+  constructor(private dialog: MatDialog,
+    private router: Router
+  ) { }
 
   public playAgainstComputer(): void {
     this.dialog.open(PlayAgainstComputerDialogComponent);
+  }
+
+  public playAgainstRandom(): void {
+    this.router.navigate(["against-someone"]);
   }
 }

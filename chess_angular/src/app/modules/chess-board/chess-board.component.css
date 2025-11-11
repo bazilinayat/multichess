@@ -29,6 +29,7 @@
 
 .game-over-message {
     color: white;
+    margin: 10px;
 }
 
 .promotion-dialog {
@@ -85,4 +86,30 @@
 
 .promotion-square {
     box-shadow: inset rgb(0, 98, 150) 0px 0px 40px 0px, inset rgb(0, 98, 150) 0px 0px 40px 0px, inset rgba(0, 0, 0, 1) 0px 0px 36px -24px;
+}
+
+
+/* my own css*/
+
+.container {
+  display: flex;
+  width: 100%;
+}
+
+.left-placeholder {
+    padding: 50px;
+    width: 20%;
+}
+
+.center {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 20px;
+    width: 60%;
+}
+
+.right {
+  width: 20%;
 }

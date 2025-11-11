@@ -1,10 +1,14 @@
-<mat-toolbar>
+<mat-toolbar style="display: flex; justify-content: center; align-items: center;">
     <button mat-button routerLink="/against-friend">
         Play against friend
     </button>
 
     <button mat-button (click)="playAgainstComputer()">
         Play against computer
+    </button>
+
+    <button mat-button (click)="playAgainstRandom()">
+        Play against someone
     </button>
 
 </mat-toolbar>

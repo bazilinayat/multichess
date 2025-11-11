@@ -1,0 +1,54 @@
+<div class="lobby-container">
+  <h1>Multiplayer Chess Lobby</h1>
+
+  <div class="connection-status" *ngIf="!connected">
+    <p>Connecting to server...</p>
+  </div>
+
+  <div class="player-input">
+    <label>Your Name:</label>
+    <input 
+      type="text" 
+      [(ngModel)]="playerName" 
+      placeholder="Enter your name..."
+      maxlength="20"
+    />
+  </div>
+
+  <div class="create-game">
+    <h2>Create New Game</h2>
+    <p>Start a new game and wait for an opponent (You'll play as White)</p>
+    <button 
+      (click)="createGame()" 
+      [disabled]="isCreating || !connected"
+    >
+      {{ isCreating ? 'Creating...' : 'Create Game' }}
+    </button>
+  </div>
+
+  <div class="join-game">
+    <h2>Join Game</h2>
+    <p>Join an existing game (You'll play as Black)</p>
+    
+    <div *ngIf="waitingGames.length === 0" class="no-games">
+      <p>No games available</p>
+    </div>
+
+    <div class="game-list" *ngIf="waitingGames.length > 0">
+      <div *ngFor="let game of waitingGames" class="game-item">
+        <div class="game-info">
+          <p class="player-name">{{ game.whiteName }}</p>
+          <p class="game-id">Game ID: {{ game.id }}</p>
+          <p class="game-time">{{ game.createdAt | date:'short' }}</p>
+        </div>
+        <button (click)="joinGame(game.id)" [disabled]="!connected">
+          Join Game
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="back-button">
+    <button routerLink="/">← Back to Menu</button>
+  </div>
+</div>

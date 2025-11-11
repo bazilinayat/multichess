@@ -13,7 +13,7 @@ app.use(express.json());
 const httpServer = createServer(app);
 const io = new Server(httpServer, {
   cors: {
-    origin: process.env.CLIENT_URL || 'http://localhost:3000',
+    origin: process.env.CLIENT_URL || 'http://localhost:4200', // Changed to Angular default port
     methods: ['GET', 'POST']
   }
 });
@@ -38,7 +38,7 @@ class GameManager {
         connected: true
       },
       black: null,
-      fen: 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1',
+      fen: 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1', // Initial position
       status: 'waiting', // waiting, active, finished
       moves: [],
       createdAt: Date.now(),
@@ -112,17 +112,35 @@ class GameManager {
     }
 
     // Update game state
-    game.fen = moveData.fen;
-    game.moves.push({
+    console.log("Move sent by - socketid:", socketId);
+    console.log("Move received - FEN:", moveData.fen);
+    console.log("Move details:", {
       from: moveData.from,
       to: moveData.to,
-      piece: moveData.piece,
+      prevX: moveData.prevX,
+      prevY: moveData.prevY,
+      newX: moveData.newX,
+      newY: moveData.newY,
+      promotedPiece: moveData.promotedPiece,
+      madeBy: moveData.madeBy
+    });
+
+    game.fen = moveData.fen;
+    game.moves.push({
+      fen: moveData.fen,
+      from: moveData.from,
+      to: moveData.to,
+      prevX: moveData.prevX,
+      prevY: moveData.prevY,
+      newX: moveData.newX,
+      newY: moveData.newY,
+      promotedPiece: moveData.promotedPiece,
       timestamp: Date.now(),
       player: isWhite ? 'white' : 'black'
     });
     game.lastMoveAt = Date.now();
 
-    return { success: true, game, move: moveData };
+    return { success: true, game, moveData };
   }
 
   endGame(gameId, winner, reason) {
@@ -237,7 +255,7 @@ io.on('connection', (socket) => {
     console.log(`${playerName} joined game ${gameId}`);
   });
 
-  // Make a move
+  // Make a move - UPDATED to handle Angular's move format
   socket.on('move', (data) => {
     const { gameId, moveData } = data;
     const result = gameManager.makeMove(gameId, socket.id, moveData);
@@ -248,9 +266,10 @@ io.on('connection', (socket) => {
     }
 
     // Broadcast move to all players in the game
+    // Include the full moveData so Angular can reconstruct the move
     io.to(gameId).emit('move-made', {
       fen: moveData.fen,
-      move: moveData,
+      move: moveData, // This includes prevX, prevY, newX, newY, promotedPiece, madeBy
       game: result.game
     });
 
@@ -289,12 +308,15 @@ io.on('connection', (socket) => {
         winner,
         reason: 'resignation'
       });
+      
+      console.log(`Game ${gameId} ended: ${winner} wins by resignation`);
     }
   });
 
   // Offer draw
   socket.on('offer-draw', (data) => {
     const { gameId } = data;
+    console.log(`Draw offered in game ${gameId}`);
     socket.to(gameId).emit('draw-offered');
   });
 
@@ -307,6 +329,8 @@ io.on('connection', (socket) => {
       winner: 'draw',
       reason: 'agreement'
     });
+    
+    console.log(`Game ${gameId} ended: Draw by agreement`);
   });
 
   // Handle disconnect
@@ -331,6 +355,7 @@ io.on('connection', (socket) => {
               winner,
               reason: 'abandonment'
             });
+            console.log(`Game ${game.id} ended: ${winner} wins by abandonment`);
           }
         }
       }, 60000);
@@ -345,7 +370,12 @@ io.on('connection', (socket) => {
 // ===================================
 app.get('/api/games', (req, res) => {
   const games = Array.from(gameManager.games.values());
-  res.json({ games });
+  res.json({ 
+    games,
+    totalGames: games.length,
+    activeGames: games.filter(g => g.status === 'active').length,
+    waitingGames: games.filter(g => g.status === 'waiting').length
+  });
 });
 
 app.get('/api/games/:id', (req, res) => {
@@ -357,6 +387,11 @@ app.get('/api/games/:id', (req, res) => {
   }
 });
 
+// Health check endpoint
+app.get('/health', (req, res) => {
+  res.json({ status: 'ok', timestamp: Date.now() });
+});
+
 // ===================================
 // START SERVER
 // ===================================
@@ -364,5 +399,6 @@ const PORT = process.env.PORT || 3001;
 
 httpServer.listen(PORT, () => {
   console.log(`✅ Chess WebSocket server running on port ${PORT}`);
-  console.log(`🌐 Client should connect to: ws://localhost:${PORT}`);
+  console.log(`🌐 Angular client should connect to: http://localhost:${PORT}`);
+  console.log(`📊 API available at: http://localhost:${PORT}/api/games`);
 });
